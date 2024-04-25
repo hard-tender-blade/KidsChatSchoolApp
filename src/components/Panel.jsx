@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
-export default function Panel() {
+export default function Panel({ arr, setArr }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
+  const clearInputs = () => {
+    setName("");
+    setMessage("");
+  };
+
   const handleSend = () => {
-    console.log(name, message);
+    setArr([...arr, { name, message }]);
+    clearInputs();
   };
 
   return (
