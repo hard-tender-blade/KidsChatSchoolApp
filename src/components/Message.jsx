@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Message() {
+export default function Message({ name, message }) {
   return (
-    <div className="p-5 text-3xl bg-slate-300 rounded-xl w-min m-3">
-      Message
+    <div className="p-5 whitespace-nowrap text-3xl bg-slate-300 rounded-xl w-min m-3">
+      {name}: {message}
     </div>
   );
 }
