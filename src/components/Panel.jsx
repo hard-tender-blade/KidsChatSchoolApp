@@ -26,12 +26,6 @@ export default function Panel({ arr, setArr }) {
     clearInputs();
   };
 
-  const handleGetData = async () => {
-    const querySnapshot = await getDocs(messagesCollection);
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    console.log(data);
-  };
-
   return (
     <div className="w-full h-full flex ">
       <div className="w-10/12 bg-red-300 flex flex-col">
@@ -57,10 +51,6 @@ export default function Panel({ arr, setArr }) {
 
       <button className="w-2/12 m-10 bg-blue-400" onClick={handleSend}>
         Send
-      </button>
-
-      <button className="w-2/12 m-10 bg-blue-400" onClick={handleGetData}>
-        get data
       </button>
     </div>
   );

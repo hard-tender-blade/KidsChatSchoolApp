@@ -5,7 +5,7 @@ export default function ChatList({ arr }) {
   return (
     <div className="w-full h-full flex flex-col bg-green-100">
       {arr.map((item, index) => (
-        <Message key={index} name={item.name} message={item.message} />
+        <Message key={index} name={item.username} message={item.message} />
       ))}
     </div>
   );

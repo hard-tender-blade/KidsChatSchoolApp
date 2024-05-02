@@ -1,23 +1,26 @@
 import ChatList from "./components/ChatList";
 import Panel from "./components/Panel";
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { messagesCollection } from "./api/firebase";
+import { getDocs } from "firebase/firestore";
 
 function App() {
-  const [arr, setArr] = useState([
-    {
-      name: "Denis",
-      message: "Hello2",
-    },
-    {
-      name: "Denis",
-      message: "Hello",
-    },
-    {
-      name: "Denis",
-      message: "Hello",
-    },
-  ]);
+  const [arr, setArr] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(messagesCollection);
+        const data = querySnapshot.docs.map((doc) => doc.data());
+        setArr(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="w-screen h-screen flex flex-col">
