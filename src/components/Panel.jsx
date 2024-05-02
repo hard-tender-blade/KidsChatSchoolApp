@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { firestore, kidsCollection, messagesCollection } from "../api/firebase";
+import { addDoc, doc, setDoc, getDocs } from "firebase/firestore";
 
 export default function Panel({ arr, setArr }) {
   const [name, setName] = useState("");
@@ -9,9 +11,25 @@ export default function Panel({ arr, setArr }) {
     setMessage("");
   };
 
-  const handleSend = () => {
-    setArr([...arr, { name, message }]);
+  const handleSend = async () => {
+    try {
+      const docRef = await addDoc(messagesCollection, {
+        username: name,
+        message: message,
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+
     clearInputs();
+  };
+
+  const handleGetData = async () => {
+    const querySnapshot = await getDocs(messagesCollection);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    console.log(data);
   };
 
   return (
@@ -39,6 +57,10 @@ export default function Panel({ arr, setArr }) {
 
       <button className="w-2/12 m-10 bg-blue-400" onClick={handleSend}>
         Send
+      </button>
+
+      <button className="w-2/12 m-10 bg-blue-400" onClick={handleGetData}>
+        get data
       </button>
     </div>
   );
