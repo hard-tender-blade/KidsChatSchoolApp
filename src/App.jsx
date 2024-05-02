@@ -3,7 +3,7 @@ import Panel from "./components/Panel";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { messagesCollection } from "./api/firebase";
-import { getDocs } from "firebase/firestore";
+import { getDocs, query, orderBy } from "firebase/firestore";
 
 function App() {
   const [arr, setArr] = useState([]);
@@ -12,8 +12,11 @@ function App() {
     const fetchData = async () => {
       try {
         console.log("Fetching data...");
-        const querySnapshot = await getDocs(messagesCollection);
-        const data = querySnapshot.docs.map((doc) => doc.data());
+        const snap = await getDocs(
+          query(messagesCollection, orderBy("time", "asc"))
+        );
+        const data = snap.docs.map((doc) => doc.data());
+
         setArr(data);
       } catch (error) {
         console.error("Error fetching data: ", error);

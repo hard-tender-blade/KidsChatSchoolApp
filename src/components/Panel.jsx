@@ -7,7 +7,6 @@ export default function Panel({ arr, setArr }) {
   const [message, setMessage] = useState("");
 
   const clearInputs = () => {
-    setName("");
     setMessage("");
   };
 
@@ -16,6 +15,7 @@ export default function Panel({ arr, setArr }) {
       const docRef = await addDoc(messagesCollection, {
         username: name,
         message: message,
+        time: new Date(),
       });
 
       console.log("Document written with ID: ", docRef.id);
