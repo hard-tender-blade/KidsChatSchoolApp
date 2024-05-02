@@ -11,6 +11,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Fetching data...");
         const querySnapshot = await getDocs(messagesCollection);
         const data = querySnapshot.docs.map((doc) => doc.data());
         setArr(data);
@@ -19,7 +20,7 @@ function App() {
       }
     };
 
-    fetchData();
+    setInterval(fetchData, 1000);
   }, []);
 
   return (
