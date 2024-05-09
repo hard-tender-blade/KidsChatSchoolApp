@@ -4,8 +4,10 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import { messagesCollection } from "./api/firebase";
 import { getDocs, query, orderBy } from "firebase/firestore";
+import LoginScreen from "./components/LoginScreen";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ function App() {
 
     setInterval(fetchData, 1000);
   }, []);
+
+  if (!loggedIn) {
+    return <LoginScreen />;
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col">
