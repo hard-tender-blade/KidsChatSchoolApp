@@ -5,7 +5,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../api/firebase";
 
 export default function Panel({ arr, setArr, username }) {
-  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
   const clearInputs = () => {
@@ -13,11 +12,11 @@ export default function Panel({ arr, setArr, username }) {
   };
 
   const handleSend = async () => {
-    if (!name || !message) return;
+    if (!username || !message) return;
 
     try {
       const docRef = await addDoc(messagesCollection, {
-        username: name,
+        username: username,
         message: message,
         time: new Date(),
       });
