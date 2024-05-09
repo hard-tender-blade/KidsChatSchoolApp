@@ -11,6 +11,8 @@ export default function Panel({ arr, setArr }) {
   };
 
   const handleSend = async () => {
+    if (!name || !message) return;
+
     try {
       const docRef = await addDoc(messagesCollection, {
         username: name,
