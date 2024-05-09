@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { messagesCollection } from "./api/firebase";
 import { getDocs, query, orderBy } from "firebase/firestore";
 import LoginScreen from "./components/LoginScreen";
+import { auth } from "./api/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,6 +28,22 @@ function App() {
     };
 
     setInterval(fetchData, 1000);
+  }, []);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        setLoggedIn(true);
+        // ...
+      } else {
+        // User is signed out
+        setLoggedIn(false);
+        // ...
+      }
+    });
   }, []);
 
   if (!loggedIn) {
