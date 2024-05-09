@@ -2,11 +2,11 @@ import ChatList from "./components/ChatList";
 import Panel from "./components/Panel";
 import "./style.css";
 import { useEffect, useState } from "react";
-import { messagesCollection } from "./api/firebase";
-import { getDocs, query, orderBy } from "firebase/firestore";
+import { firestore, messagesCollection } from "./api/firebase";
+import { getDocs, query, orderBy, onSnapshot } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import LoginScreen from "./components/LoginScreen";
 import { auth } from "./api/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -14,21 +14,15 @@ function App() {
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("Fetching data...");
-        const snap = await getDocs(
-          query(messagesCollection, orderBy("time", "asc"))
-        );
-        const data = snap.docs.map((doc) => doc.data());
+    const q = query(messagesCollection, orderBy("time", "asc"));
 
-        setArr(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
-    setInterval(fetchData, 1000);
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const msgs = [];
+      querySnapshot.forEach((doc) => {
+        msgs.push(doc.data());
+      });
+      setArr(msgs);
+    });
   }, []);
 
   useEffect(() => {
