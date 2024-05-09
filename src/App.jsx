@@ -10,6 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
@@ -36,6 +37,8 @@ function App() {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
+        const email = user.email;
+        setUsername(email);
         setLoggedIn(true);
         // ...
       } else {
@@ -57,7 +60,7 @@ function App() {
       </div>
 
       <div className="h-[20%] bg-slate-300">
-        <Panel arr={arr} setArr={setArr} />
+        <Panel arr={arr} setArr={setArr} username={username} />
       </div>
     </div>
   );
