@@ -4,9 +4,10 @@ import Message from "./Message";
 export default function ChatList({ arr }) {
   return (
     <div className="w-full h-full flex flex-col justify-end bg-green-100 ">
-      {arr.map((item, index) => (
+      {arr.map((item) => (
         <Message
-          key={index}
+          id={item.id}
+          key={item.id}
           name={item.username}
           message={item.message}
           time={item.time}

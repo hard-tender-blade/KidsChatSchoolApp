@@ -19,7 +19,7 @@ function App() {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const msgs = [];
       querySnapshot.forEach((doc) => {
-        msgs.push(doc.data());
+        msgs.push({ ...doc.data(), id: doc.id });
       });
       setArr(msgs);
     });
